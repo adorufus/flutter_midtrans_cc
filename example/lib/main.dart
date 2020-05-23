@@ -47,7 +47,7 @@ class _FlutterMidtransCCExampleState extends State<FlutterMidtransCCExample> {
   @override
   void initState() {
     midtransCC = FlutterMidtransCC('midtrans_production_url',
-        'midtrans_staging_url', 'server_key', 'client_key');
+        'midtrans_staging_url', 'server_key', 'client_key', isProduction: false);
     super.initState();
   }
 
@@ -124,7 +124,7 @@ class _FlutterMidtransCCExampleState extends State<FlutterMidtransCCExample> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => midtransCC.webview3DS(
-                                  transaction_id:
+                                  transactionId:
                                       extractedData['transaction_id'],
                                   url: extractedData['redirect_url'],
                                   onClosePressed: () {

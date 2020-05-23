@@ -11,23 +11,23 @@ import 'package:http/http.dart' as http;
 /// A Calculator.
 class FlutterMidtransCC {
   /// enter your production url
-  final String midtrans_production_url;
+  final String midtransProductionUrl;
 
   /// enter your staging url
-  final String midtrans_staging_url;
+  final String midtransStagingUrl;
 
   /// server_key can be found on your midtrans dashboard
-  final String server_key;
+  final String serverKey;
 
   /// client_key can be found on your midtrans dashboard
-  final String client_key;
+  final String clientKey;
 
   /// if true, production url will be used
   /// if false, staging url will be used
   final bool isProduction;
 
-  FlutterMidtransCC(this.midtrans_production_url, this.midtrans_staging_url,
-      this.server_key, this.client_key,
+  FlutterMidtransCC(this.midtransProductionUrl, this.midtransStagingUrl,
+      this.serverKey, this.clientKey,
       {this.isProduction = true});
 
   /// generate credit card token, so we can access 3DS
@@ -36,29 +36,29 @@ class FlutterMidtransCC {
   Future<http.Response> getCreditCardToken(String cardNumber, String expiryDate,
       String expiryYear, String cvv) async {
     String baseUrl =
-        isProduction == true ? midtrans_production_url : midtrans_staging_url;
+        isProduction == true ? midtransProductionUrl : midtransStagingUrl;
 
     String url = baseUrl +
-        'v2/token?client_key=$client_key&card_number=$cardNumber&card_exp_month=$expiryDate&card_exp_year=20$expiryYear&card_cvv=$cvv';
+        'v2/token?client_key=$clientKey&card_number=$cardNumber&card_exp_month=$expiryDate&card_exp_year=20$expiryYear&card_cvv=$cvv';
 
     final response = await http.get(url, headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': base64.encode(utf8.encode(server_key + ':'))
+      'Authorization': base64.encode(utf8.encode(serverKey + ':'))
     });
 
     return response;
   }
 
-  Widget webview3DS({String transaction_id, String url, Function onClosePressed, Function onCompleteRedirect}) {
+  Widget webview3DS({String transactionId, String url, Function onClosePressed, Function onCompleteRedirect}) {
     String baseUrl =
-        isProduction == true ? midtrans_production_url : midtrans_staging_url;
+        isProduction == true ? midtransProductionUrl : midtransStagingUrl;
     return Webview3DS(
       midtransBaseUrl: baseUrl,
-      serverKey: server_key,
+      serverKey: serverKey,
       onClosePressed: onClosePressed,
       onCompletedNavigation: onCompleteRedirect,
-      transaction_id: transaction_id,
+      transaction_id: transactionId,
       url: url,
     );
   }
@@ -84,27 +84,27 @@ class FlutterMidtransCC {
   /// midtransCharge(yourTokenId, yourOrderId, yourGrossAmount, item_details, customer_details);
   ///
   ///
-  Future<http.Response> midtransCharge(String tokenId, String order_id,
-      String gross_amount, List<Map> item_details, Map customer_details) async {
+  Future<http.Response> midtransCharge(String tokenId, String orderId,
+      String grossAmount, List<Map> itemDetails, Map customerDetails) async {
     String baseUrl =
-        isProduction == true ? midtrans_production_url : midtrans_staging_url;
+        isProduction == true ? midtransProductionUrl : midtransStagingUrl;
 
     String url = baseUrl + 'v2/charge';
     var encodingBody = json.encode({
       'payment_type': 'credit_card',
       'transaction_details': {
-        'order_id': order_id,
-        'gross_amount': gross_amount
+        'order_id': orderId,
+        'gross_amount': grossAmount
       },
       'credit_card': {"token_id": tokenId, "authentication": true},
-      'item_details': item_details,
-      'customer_details': customer_details
+      'item_details': itemDetails,
+      'customer_details': customerDetails
     });
 
     final response = await http.post(url, body: encodingBody, headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': base64.encode(utf8.encode(server_key + ':'))
+      'Authorization': base64.encode(utf8.encode(serverKey + ':'))
     });
 
     return response;

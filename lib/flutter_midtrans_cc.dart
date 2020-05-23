@@ -50,7 +50,11 @@ class FlutterMidtransCC {
     return response;
   }
 
-  Widget webview3DS({String transactionId, String url, Function onClosePressed, Function onCompleteRedirect}) {
+  Widget webview3DS(
+      {String transactionId,
+      String url,
+      Function onClosePressed,
+      Function onCompleteRedirect}) {
     String baseUrl =
         isProduction == true ? midtransProductionUrl : midtransStagingUrl;
     return Webview3DS(
@@ -58,7 +62,7 @@ class FlutterMidtransCC {
       serverKey: serverKey,
       onClosePressed: onClosePressed,
       onCompletedNavigation: onCompleteRedirect,
-      transaction_id: transactionId,
+      transactionId: transactionId,
       url: url,
     );
   }
@@ -92,10 +96,7 @@ class FlutterMidtransCC {
     String url = baseUrl + 'v2/charge';
     var encodingBody = json.encode({
       'payment_type': 'credit_card',
-      'transaction_details': {
-        'order_id': orderId,
-        'gross_amount': grossAmount
-      },
+      'transaction_details': {'order_id': orderId, 'gross_amount': grossAmount},
       'credit_card': {"token_id": tokenId, "authentication": true},
       'item_details': itemDetails,
       'customer_details': customerDetails

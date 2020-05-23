@@ -6,14 +6,22 @@ import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Webview3DS extends StatefulWidget {
-  final String transaction_id;
+  final String transactionId;
   final String url;
   final String midtransBaseUrl;
   final String serverKey;
   final Function onClosePressed;
   final Function onCompletedNavigation;
 
-  const Webview3DS({Key key, this.transaction_id, this.url, this.onClosePressed, this.midtransBaseUrl, this.onCompletedNavigation, this.serverKey}) : super(key: key);
+  const Webview3DS(
+      {Key key,
+      this.transactionId,
+      this.url,
+      this.onClosePressed,
+      this.midtransBaseUrl,
+      this.onCompletedNavigation,
+      this.serverKey})
+      : super(key: key);
   @override
   _Webview3DSState createState() => _Webview3DSState();
 }
@@ -25,7 +33,6 @@ class _Webview3DSState extends State<Webview3DS> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -38,7 +45,9 @@ class _Webview3DSState extends State<Webview3DS> {
           Padding(
             padding: EdgeInsets.only(right: 13),
             child: isLoading == true
-                ? CircularProgressIndicator(backgroundColor: Colors.blue,)
+                ? CircularProgressIndicator(
+                    backgroundColor: Colors.blue,
+                  )
                 : Container(),
           )
         ],
@@ -110,8 +119,7 @@ class _Webview3DSState extends State<Webview3DS> {
   }
 
   Future<http.Response> getTransactStatus() async {
-    String url =
-        widget.midtransBaseUrl + 'v2/${widget.transaction_id}/status';
+    String url = widget.midtransBaseUrl + 'v2/${widget.transactionId}/status';
 
     final response = await http.get(url, headers: {
       'Accept': 'application/json',

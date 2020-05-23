@@ -47,7 +47,8 @@ class _FlutterMidtransCCExampleState extends State<FlutterMidtransCCExample> {
   @override
   void initState() {
     midtransCC = FlutterMidtransCC('midtrans_production_url',
-        'midtrans_staging_url', 'server_key', 'client_key', isProduction: false);
+        'midtrans_staging_url', 'server_key', 'client_key',
+        isProduction: false);
     super.initState();
   }
 

@@ -32,4 +32,4 @@ midtransCC.getCreditCardToken("Credit card number", "Expiry Date",
 
 see example for more detailed usage
 
-### Notes: you need to activate Midtrans Web SDK before using this package
+### Notes: you need to activate Midtrans Midtrans Core API before using this package
